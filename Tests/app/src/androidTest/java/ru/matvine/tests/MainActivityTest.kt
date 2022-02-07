@@ -22,6 +22,10 @@ class MainActivityTest {
     private val button = R.id.buttonl;
     private val textView = R.id.textView;
 
+    private val inputFirstType = 1;
+    private val inputSecondType = 2;
+    private val inputThirdType = 3;
+
     /*
         Проверяет наличие компонентов
      */
@@ -50,28 +54,49 @@ class MainActivityTest {
 
     /*
         Проверяет корректность обновления лейбла
-        на случайном тексте/символах
-     */
+        на случайной строке
+    */
     @Test
     @Throws(Exception::class)
-    fun inputTest() {
-        val len = rand(50); // генерация случайного кол-ва символов
-        val type = rand(3);
-        val randomStr = randomString(len,type); // генерация случайной строки
-        onView(withId(editText)).perform(replaceText(randomStr)) // замена текста на сгенерированный
+    fun inputFirstTest() {
+        val str = getString(inputFirstType); // генерация случайной строки
+        onView(withId(editText)).perform(replaceText(str)) // замена текста на сгенерированный
         onView(withId(button)).perform(click()) // кликаем по кнопке
-        onView(withId(textView)).check(matches(withText(randomStr))) // проверяем лейбл
+        onView(withId(textView)).check(matches(withText(str))) // проверяем лейбл
     }
 
-    fun rand(last: Int): Int {
-        return Random().nextInt(last) + 1;
+    /*
+        Проверяет корректность обновления лейбла
+        на строке из "битых" символов
+    */
+    @Test
+    @Throws(Exception::class)
+    fun inputSecondTest() {
+        val str = getString(inputSecondType); // получение строки с "битыми" символами
+        onView(withId(editText)).perform(replaceText(str)) // замена текста на сгенерированный
+        onView(withId(button)).perform(click()) // кликаем по кнопке
+        onView(withId(textView)).check(matches(withText(str))) // проверяем лейбл
     }
 
-    fun randomString(length: Int,type: Int): String? {
+    /*
+        Проверяет корректность обновления лейбла
+        на строке из unicode символов
+    */
+    @Test
+    @Throws(Exception::class)
+    fun inputThirdTest() {
+        val str = getString(inputThirdType); // получение строки unicode-символов
+        onView(withId(editText)).perform(replaceText(str)) // замена текста на сгенерированный
+        onView(withId(button)).perform(click()) // кликаем по кнопке
+        onView(withId(textView)).check(matches(withText(str))) // проверяем лейбл
+    }
+
+    fun getString(type: Int): String {
         when(type){
             1 -> {
                 val r = Random()
                 val sb = StringBuffer()
+                val length = 64;
                 while (sb.length < length) {
                     sb.append(Integer.toHexString(r.nextInt()))
                 }
