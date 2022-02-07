@@ -96,7 +96,7 @@ class MainActivityTest {
             1 -> {
                 val r = Random()
                 val sb = StringBuffer()
-                val length = 64;
+                val length = 2048;
                 while (sb.length < length) {
                     sb.append(Integer.toHexString(r.nextInt()))
                 }
