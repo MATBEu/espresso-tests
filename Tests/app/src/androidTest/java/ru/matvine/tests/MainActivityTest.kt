@@ -1,5 +1,7 @@
 package ru.matvine.tests
 
+import android.content.pm.ActivityInfo
+import androidx.appcompat.app.AppCompatDelegate
 import org.junit.Before
 import org.junit.Test
 
@@ -15,12 +17,12 @@ import java.util.*
 
 class MainActivityTest {
 
+    @Rule @JvmField
+    var mActivityRule = ActivityTestRule(MainActivity::class.java)
+
     private val editText = R.id.editText;
     private val button = R.id.buttonl;
     private val textView = R.id.textView;
-
-    @Rule @JvmField
-    var mActivityRule = ActivityTestRule(MainActivity::class.java)
 
     /*
         Проверяет наличие компонентов
@@ -35,6 +37,19 @@ class MainActivityTest {
         onView(withId(textView)).check(matches(withText("Label"))) // initial label text
     }
 
+    /*
+        Проверяет наличие компонентов
+        при разных ориентациях экрана
+     */
+    @Test
+    @Throws(Exception::class)
+    fun secondTest() {
+        mActivityRule.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE; // альбомная ориентация
+        checkComponents();
+        mActivityRule.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT; // портретная ориентация
+        checkComponents();
+    }
+
 
     /*
         Проверяет корректность обновления лейбла
@@ -42,7 +57,7 @@ class MainActivityTest {
      */
     @Test
     @Throws(Exception::class)
-    fun tests() {
+    fun inputTest() {
         val len = rand(50); // генерация случайного кол-ва символов
         val randomStr = randomString(len); // генерация случайной строки
         onView(withId(editText)).perform(replaceText(randomStr)) // замена текста на сгенерированный
