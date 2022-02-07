@@ -15,12 +15,12 @@ import java.util.*
 
 class MainActivityTest {
 
+    private val editText = R.id.editText;
+    private val button = R.id.buttonl;
+    private val textView = R.id.textView;
+
     @Rule @JvmField
     var mActivityRule = ActivityTestRule(MainActivity::class.java)
-
-    @Before
-    @Throws(Exception::class)
-    fun setUp(){}
 
     /*
         Проверяет наличие компонентов
@@ -29,10 +29,10 @@ class MainActivityTest {
     @Test
     @Throws(Exception::class)
     fun checkComponents(){
-        onView(withId(R.id.editText)).check(matches(isDisplayed())) // input field
-        onView(withId(R.id.buttonl)).check(matches(isDisplayed())) // "set" button
-        onView(withId(R.id.textView)).check(matches(isDisplayed())) // label
-        onView(withId(R.id.textView)).check(matches(withText("Label"))) // initial label text
+        onView(withId(editText)).check(matches(isDisplayed())) // input field
+        onView(withId(button)).check(matches(isDisplayed())) // "set" button
+        onView(withId(textView)).check(matches(isDisplayed())) // label
+        onView(withId(textView)).check(matches(withText("Label"))) // initial label text
     }
 
 
@@ -45,9 +45,9 @@ class MainActivityTest {
     fun tests() {
         val len = rand(50); // генерация случайного кол-ва символов
         val randomStr = randomString(len); // генерация случайной строки
-        onView(withId(R.id.editText)).perform(replaceText(randomStr)) // замена текста на сгенерированный
-        onView(withId(R.id.buttonl)).perform(click()) // кликаем по кнопке
-        onView(withId(R.id.textView)).check(matches(withText(randomStr))) // проверяем лейбл
+        onView(withId(editText)).perform(replaceText(randomStr)) // замена текста на сгенерированный
+        onView(withId(button)).perform(click()) // кликаем по кнопке
+        onView(withId(textView)).check(matches(withText(randomStr))) // проверяем лейбл
     }
 
     fun rand(last: Int): Int {
